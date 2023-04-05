@@ -15,6 +15,10 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STATICFILES_DIRS = [
+   BASE_DIR / "static"
+]
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -79,6 +83,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'serverdb': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'u1974102_default',
+        'USER': 'u1974102_default',
+        'PASSWORD': 'SetDjuk849T2lJaH',
+        'HOST': 'localhost',
     }
 }
 
@@ -124,4 +135,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ALLOWED_HOSTS = ['198.211.99.20', 'localhost', '127.0.0.1', '127.0.0.2', '127.0.0.3']
+ALLOWED_HOSTS = ['millcool.ru','198.211.99.20', 'localhost', '127.0.0.1', '127.0.0.2', '127.0.0.3']

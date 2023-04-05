@@ -13,8 +13,8 @@ def review(request):
         if form.is_valid():
             text = form.cleaned_data['text']
             # perform sentiment analysis on the text to determine rating and positivity
-            rating = rating_for_text()
-            positive = predict_pos_neg()
+            rating = rating_for_text(text)
+            positive = predict_pos_neg(text)
             review = Review(text=text, rating=rating, positive=positive)
             review.save()
             return redirect('review')
