@@ -6,3 +6,4 @@
 *.iml
 out
 gen
+rosatom/reviews/open_ai_key.py

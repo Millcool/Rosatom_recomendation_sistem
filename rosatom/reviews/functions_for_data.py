@@ -122,16 +122,18 @@ def dict_of_words_cluster(reviews, lst, n_of_words):
 def do_all(data):
     data = data.dropna()
     data = data[:1999]
+    col = data.columns
+    question = col[0]
     openai.api_key = OPENAI_KEY
     engine = "text-davinci-003"
     new_df = []
-    for review in data['Какая «большая цель» Росатома может вдохновить Вас на работу и наполнить смыслом ваш ежедневный труд?']:
+    for review in data[f'{question}']:
         review = preprocessing(review)
         new_df.append(review)
     df = pd.DataFrame(new_df, columns=['review'])
 
     most_15_not_stem = n_most_common_words(df, 15)
-    prompt = f"Ответь на вопрос Какая «большая цель» Росатома может вдохновить Вас на работу и наполнить смыслом ваш ежедневный труд? в четырех - пяти предложениях . применяя слова {most_15_not_stem}"
+    prompt = f"Ответь на вопрос {question} в четырех - пяти предложениях . применяя слова {most_15_not_stem}"
 
     #Модель
     completion = openai.Completion.create(engine=engine,
