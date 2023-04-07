@@ -1,2 +1,0 @@
-
-OPENAI_KEY = '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'
