@@ -1,6 +1,6 @@
 /* Стилизация кнопки */
 button[type="submit"] {
-  background-color: #e50914;
+  background-color: #e514;
   color: #fff;
   border: none;
   border-radius: 3px;
@@ -9,6 +9,25 @@ button[type="submit"] {
   padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+}
+h1{
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+}
+
+body {
+  background-color: #ffffff; /* светло-серый цвет фона */
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px; /* размер шрифта */
+  line-height: 1.5; /* межстрочный интервал */
+  color: #333; /* цвет текста */
+  margin: 0; /* убираем отступы */
+  padding: 0; /* убираем отступы */
 }
 
 button[type="submit"]:hover {
@@ -21,7 +40,7 @@ input[type="file"] {
   font-size: 16px;
   padding: 10px;
   border: 2px solid #e50914;
-  border-radius: 3px;
+  border-radius: 0px;
   color: #fff;
   background-color: transparent;
   cursor: pointer;

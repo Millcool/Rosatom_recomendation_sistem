@@ -31,14 +31,15 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from PyPDF2 import PdfFileReader, PdfMerger
 
-
 from wordcloud import WordCloud
 from PIL import Image
 
 porter = PorterStemmer()
 wnl = WordNetLemmatizer()
-nlp = spacy.load('ru_core_news_lg')
-stopwords=nlp.Defaults.stop_words
+nlp = spacy.load('ru_core_news_sm')
+stopwords = nlp.Defaults.stop_words
+
+
 
 
 def n_most_common_words(df, n):
@@ -120,6 +121,7 @@ def dict_of_words_cluster(reviews, lst, n_of_words):
 
 def do_all(data):
     data = data.dropna()
+    data = data[:1999]
     openai.api_key = OPENAI_KEY
     engine = "text-davinci-003"
     new_df = []
@@ -131,11 +133,13 @@ def do_all(data):
     most_15_not_stem = n_most_common_words(df, 15)
     prompt = f"Ответь на вопрос Какая «большая цель» Росатома может вдохновить Вас на работу и наполнить смыслом ваш ежедневный труд? в четырех - пяти предложениях . применяя слова {most_15_not_stem}"
 
-    # Модель
+    #Модель
     completion = openai.Completion.create(engine=engine,
                                           prompt=prompt,
                                           temperature=0.5,
                                           max_tokens=1000)
+    openai_gen = completion.choices[0]['text']
+    #openai_gen = 'generated_by_openai'
     s = ''
     for w in most_15_not_stem:
         s += w
@@ -151,45 +155,45 @@ def do_all(data):
             .toarray()
     )
 
-    clusterNum = 15
+    clusterNum = 4
     k_means = KMeans(init="k-means++", n_clusters=clusterNum, n_init=12)
     k_means.fit(tfidf_data)
     labels = k_means.labels_
     lst = list(labels)
-    # wordcloud = WordCloud(width=2000,
-    #                       height=1600,
-    #                       random_state=1,
-    #                       background_color='white',
-    #                       margin=6,
-    #                       colormap='plasma',
-    #                       collocations=False
-    #                       ).generate(s)
-    # wordcloud.to_file('loud_simple.png')
+    wordcloud = WordCloud(width=2000,
+                          height=1600,
+                          random_state=1,
+                          background_color='white',
+                          margin=6,
+                          colormap='plasma',
+                          collocations=False
+                          ).generate(s)
+    wordcloud.to_file('./static/images/cloud_simple.png')
+
+    pca = PCA(n_components=2)
+    pca_decomp_1 = pca.fit_transform(tfidf_data).astype('float16')
+    X = pca_decomp_1
+    y = lst
+    data1 = pd.DataFrame(X)
+    data2 = pd.DataFrame(y, columns=['label'])
+    da = pd.concat([data1, data2], axis=1)
     #
-    # pca = PCA(n_components=2)
-    # pca_decomp_1 = pca.fit_transform(tfidf_data).astype('float16')
-    # X = pca_decomp_1
-    # y = lst
-    # data1 = pd.DataFrame(X)
-    # data2 = pd.DataFrame(y, columns=['label'])
-    # da = pd.concat([data1, data2], axis=1)
-    # #
-    # fig = plt.figure()
-    # #
-    # fig.set_size_inches(16, 10)
-    # #
-    # sns.scatterplot(x=0,
-    #                 y=1,
-    #                 hue='label',
-    #                 edgecolor="k",
-    #                 palette=["#FF5533", "#00B050", "#FFB050", "#00A05F"],
-    #                 data=da)
+    fig = plt.figure()
     #
-    # #plt.show()
-    # fig.savefig('my_plot.png')
+    fig.set_size_inches(16, 10)
+    #
+    sns.scatterplot(x=0,
+                    y=1,
+                    hue='label',
+                    edgecolor="k",
+                    palette=["#FF5533", "#00B050", "#FFB050", "#00A05F"],
+                    data=da)
+
+
+    fig.savefig('./static/images/my_plot.png')
 
     dictionary_of_most_words = dict_of_words_cluster(df['review'], lst, 15)
-    return most_15_not_stem, dictionary_of_most_words, completion.choices[0]['text']
+    return most_15_not_stem, dictionary_of_most_words, openai_gen
 
 def make_pdf(most_15_not_stem, dictionary_of_most_words, openai_answer):
     # Заголовок документа
@@ -231,5 +235,5 @@ def make_pdf(most_15_not_stem, dictionary_of_most_words, openai_answer):
     new_pdf = PdfMerger()
     new_pdf.add_metadata({'Title': title})
     new_pdf.append(packet)
-    with open('report.pdf', 'wb') as output:
+    with open('./static/files/report.pdf', 'wb') as output:
         new_pdf.write(output)

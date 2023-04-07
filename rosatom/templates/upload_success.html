@@ -4,21 +4,31 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="../static/css/upload_success.css">
+     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 <body>
-    <h1> Uploaded successfully !!! </h1>
-    <ul>
-    {% for item in items %}
-      <li>{{ item }}</li>
-    {% endfor %}
-  </ul>
+    <h1> Отчет о проанализированных отзывах  </h1>
+<ul>
+  {% for item in items %}
+    {% if forloop.first %}
+      <h2>Самые часто встречающиеся слова в отзывах:</h2>
+    {% for word in item %}
+    <li>{{ loop.index }}. {{ word }}</li>
+  {% endfor %}
 
-<img src="../media/images/cloud_simple.png" alt="Картинка 1">
-<img src="../../media/images/cl.png" alt="Картинка 4">
-<img src="media/images/cl.png" alt="Картинка 3">
-    <img src="./media/images/cl.png" alt="Картинка 2">
+    {% endif %}
 
-<a href="{% url 'generate_pdf' %}?items={{ items }}" download><button>Скачать PDF</button></a>
+    {% if forloop.last %}
+      <h2>Вот краткое описание всех отзывов, составленное моделью:</h2>
+     <li>{{ item }}</li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
+    <img src="../static/images/cloud_simple.png" width="750" height="600">
+    <img src="./../static/images/my_plot.png" width="750" height="600">
+
+<a href="../static/files/report.pdf" download><button>Скачать PDF</button></a>
 
 </body>
 </html>
