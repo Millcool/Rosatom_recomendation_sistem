@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/css/upload_success.css">
+</head>
+<body>
+    <h1> Uploaded successfully !!! </h1>
+    <ul>
+    {% for item in items %}
+      <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+
+<img src="../media/images/cloud_simple.png" alt="Картинка 1">
+<img src="../../media/images/cl.png" alt="Картинка 4">
+<img src="media/images/cl.png" alt="Картинка 3">
+    <img src="./media/images/cl.png" alt="Картинка 2">
+
+<a href="{% url 'generate_pdf' %}?items={{ items }}" download><button>Скачать PDF</button></a>
+
+</body>
+</html>

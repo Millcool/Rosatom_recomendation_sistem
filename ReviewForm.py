@@ -1,9 +1,0 @@
-# Определение формы ReviewForm в файле forms.py приложения reviews
-
-from django import forms
-from .models import Review
-
-class ReviewForm(forms.ModelForm):
-    class Meta:
-        model = Review
-        fields = ('title', 'text', 'rating', 'status')

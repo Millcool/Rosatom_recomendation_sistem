@@ -1,3 +1,13 @@
+ul {
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
 /* Стилизация кнопки */
 button[type="submit"] {
   background-color: #e50914;

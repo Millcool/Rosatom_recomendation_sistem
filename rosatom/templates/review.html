@@ -1,16 +1,19 @@
-{% load static %}
-
+<!--<form method="post" enctype="multipart/form-data">-->
+<!--  {% csrf_token %}-->
+<!--  <input type="file" name="myfile">-->
+<!--  <button type="submit">Отправить</button>-->
+<!--</form>-->
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Загрузка файла и отправка на сервер</title>
-	<link rel="stylesheet" type="text/css" href="{% static 'css/review.css' %}">
+  <title>Моя страница</title>
+  <link rel="stylesheet" href="../static/css/review.css">
 </head>
 <body>
-	<form action="/upload" method="post" enctype="multipart/form-data">
-		<label for="file">Выберите файл:</label>
-		<input type="file" name="file" id="file">
-		<input type="submit" value="Отправить">
-	</form>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile">
+    <button type="submit">Отправить</button>
+  </form>
 </body>
 </html>

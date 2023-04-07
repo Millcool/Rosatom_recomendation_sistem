@@ -15,10 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from reviews.views import index_page, review
+
+from reviews.views import review
+from reviews.views import upload, upload_success, generate_pdf
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index_page),
-    path('review/', review, name='review')
+    path('', review),
+    path('review/', review, name='review'),
+    path('upload/', upload, name='upload'),
+    path('upload_success/', upload_success, name='upload_success'),
+    path('generate_pdf/', generate_pdf, name='generate_pdf'),
+
 ]
